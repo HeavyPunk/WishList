@@ -39,4 +39,11 @@ public class CardController : ControllerBase
             return NotFound();
         return card;
     }
+
+    [HttpGet("getAll")]
+    public async Task<ActionResult<IList<Card>>> GetAllCards()
+    {
+        var cards = _db.Cards.ToList();
+        return cards;
+    }
 }
