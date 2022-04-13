@@ -15,6 +15,7 @@ public class CardController : ControllerBase
     {
         _db = db;
     }
+    // здесь была аня
     
     [HttpPost("post")]
     public async Task<ActionResult<Card>> PostCard(CardModel cardModel)
