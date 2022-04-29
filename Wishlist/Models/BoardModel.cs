@@ -2,12 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Wishlist.Models;
 
-public class CardModel
+public class BoardModel
 {
     [Required]
     public string Name { get; set; }
-    
-    [Required]
-    public string Text { get; set; }
-    public string ImgUri { get; set; }
+    public string Description { get; set; }
 }

@@ -5,15 +5,16 @@ using Wishlist.Models;
 
 namespace Wishlist.Controllers;
 
-[Route("api/[controller]")]
+[Obsolete("Use BoardController for support multi-paging boards")]
+[Route("api/cards/[controller]")]
 [ApiController]
 public class CardController : ControllerBase
 {
-    private readonly CardDB _db;
+    private readonly WishListDbContext _dbContext;
 
-    public CardController(CardDB db)
+    public CardController(WishListDbContext dbContext)
     {
-        _db = db;
+        _dbContext = dbContext;
     }
     // здесь была аня
     
@@ -22,20 +23,21 @@ public class CardController : ControllerBase
     {
         var card = new Card
         {
-            Id = new Guid(),
+            CardId = new Guid(),
             Name = cardModel.Name,
             Text = cardModel.Text,
+            ImgUri = cardModel.ImgUri
         };
         
-        _db.Cards.Add(card);
-        await _db.SaveChangesAsync();
-        return CreatedAtAction("GetCard", new { id = card.Id }, card);
+        _dbContext.Cards.Add(card);
+        await _dbContext.SaveChangesAsync();
+        return CreatedAtAction("GetCard", new { id = card.CardId }, card);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Card>> GetCard(Guid id)
     {
-        var card = await _db.Cards.FindAsync(id);
+        var card = await _dbContext.Cards.FindAsync(id);
         if (card == null)
             return NotFound();
         return card;
@@ -44,7 +46,7 @@ public class CardController : ControllerBase
     [HttpGet("getAll")]
     public async Task<ActionResult<IList<Card>>> GetAllCards()
     {
-        var cards = _db.Cards.ToList();
+        var cards = _dbContext.Cards.ToList();
         return cards;
     }
 }
