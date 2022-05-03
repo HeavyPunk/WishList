@@ -16,6 +16,7 @@ if (builder.Environment.IsDevelopment())
 
 app.UseCors(b =>
 {
+    b.AllowAnyMethod();
     b.AllowAnyOrigin();
     b.AllowAnyHeader();
 });

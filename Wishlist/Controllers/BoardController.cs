@@ -89,4 +89,30 @@ public class BoardController : ControllerBase
             return NotFound();
         return board.Cards.ToList();
     }
+
+    [HttpDelete("delete-card/")]
+    public async Task<ActionResult> DeleteCard(DeleteCardModel deleteCardModel)
+    {
+        var card = _db.Cards
+            .FirstOrDefault(c =>
+                c.BoardId.Equals(deleteCardModel.BoardId)
+                && c.CardId.Equals(deleteCardModel.CardId)
+            );
+        if (card is null)
+            return NotFound();
+        _db.Cards.Remove(card);
+        await _db.SaveChangesAsync();
+        return Ok();
+    }
+
+    [HttpDelete("delete-board/")]
+    public async Task<ActionResult> DeleteBoard(DeleteBoardModel deleteBoardModel)
+    {
+        var board = await _db.Boards.FindAsync(deleteBoardModel.BoardId);
+        if (board is null)
+            return NotFound();
+        _db.Boards.Remove(board);
+        await _db.SaveChangesAsync();
+        return Ok();
+    }
 }
