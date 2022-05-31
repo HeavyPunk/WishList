@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Wishlist.Components;
@@ -7,6 +8,7 @@ using Wishlist.Models;
 namespace Wishlist.Controllers;
 
 [Route("api/[controller]")]
+[Authorize]
 [ApiController]
 public class BoardController : ControllerBase
 {
